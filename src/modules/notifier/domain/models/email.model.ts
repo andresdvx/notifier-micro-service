@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { IEmailModel } from './Iemail.model';
 
 @Schema({ collection: 'emails' })
-export class NoticationModel extends Document {
+export class EmailModel extends Document implements IEmailModel {
   @Prop({ required: true })
   to: string;
 
@@ -16,4 +17,4 @@ export class NoticationModel extends Document {
   status: 'pending' | 'sent' | 'failed';
 }
 
-export const NotificationSchema = SchemaFactory.createForClass(NoticationModel);
+export const EmailSchema = SchemaFactory.createForClass(EmailModel);

@@ -1,22 +1,33 @@
 import { Module } from '@nestjs/common';
-import {
-  NotificationSchema,
-  NoticationModel,
-} from './domain/models/notification.model';
+import { EmailModel, EmailSchema } from './domain/models/email.model';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SendEmailController } from './infraestructure/http/sendEmail.controller';
+import { EmailController } from './infraestructure/http/controllers/email.controller';
+import { SaveEmailUseCase } from './application/use-cases/saveEmail.useCase';
+import { EmailServiceImp } from './infraestructure/services/email.service.imp';
+import { EmailRepositoryImp } from './infraestructure/repositories/email.repository.imp';
+import { EmailTypes } from './domain/contants/types';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
-        name: NoticationModel.name,
-        schema: NotificationSchema,
+        name: EmailModel.name,
+        schema: EmailSchema,
       },
     ]),
   ],
-  controllers: [SendEmailController],
-  providers: [],
+  controllers: [EmailController],
+  providers: [
+    {
+      provide: EmailTypes.EmailRepository,
+      useClass: EmailRepositoryImp,
+    },
+    {
+      provide: EmailTypes.EmailService,
+      useClass: EmailServiceImp,
+    },
+    SaveEmailUseCase,
+  ],
   exports: [MongooseModule],
 })
 export class NotifierModule {}
