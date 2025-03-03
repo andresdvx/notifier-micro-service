@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IEmailModel } from '../../domain/models/Iemail.model';
 import { IEmailService } from '../../domain/services/email.service';
-import { EmailTypes } from '../../domain/contants/types';
+import { EmailTypes } from 'src/common/contants/types';
 
 @Injectable()
 export class SaveEmailUseCase {

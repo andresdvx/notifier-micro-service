@@ -2,14 +2,15 @@ import { Process } from '@nestjs/bull';
 import { Processor, WorkerHost, OnWorkerEvent } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
 import * as nodemailer from 'nodemailer';
-import transactionEmailTemplate from 'src/common/templates/transaction.template';
+import { EventQueueTypes } from 'src/common/contants/types';
 import { welcomeTemplate } from 'src/common/templates/welcome.template';
 import { IEmailModel } from 'src/modules/notifier/domain/models/Iemail.model';
+import transactionEmailTemplate from 'src/common/templates/transaction.template';
 
-@Processor('email_queue')
+@Processor(EventQueueTypes.EmailEventQueue.toString())
 export class EmailProcessor extends WorkerHost {
 
-  @Process('send_email')
+  @Process(EventQueueTypes.EmailProcess.toString())
   async process(job: Job) {
     const { to, subject, payload, type } : IEmailModel= job.data;
 

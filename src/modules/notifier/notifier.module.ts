@@ -5,7 +5,7 @@ import { EmailController } from './infraestructure/http/controllers/email.contro
 import { SaveEmailUseCase } from './application/use-cases/saveEmail.useCase';
 import { EmailServiceImp } from './infraestructure/services/email.service.imp';
 import { EmailRepositoryImp } from './infraestructure/repositories/email.repository.imp';
-import { EmailTypes } from './domain/contants/types';
+import { EmailTypes } from '../../common/contants/types';
 import { EventQueueModule } from '../events-queue/eventQueue.module';
 import { EmailProducer } from '../events-queue/infraestructure/messaging/email.producer';
 
