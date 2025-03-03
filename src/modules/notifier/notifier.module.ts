@@ -6,9 +6,12 @@ import { SaveEmailUseCase } from './application/use-cases/saveEmail.useCase';
 import { EmailServiceImp } from './infraestructure/services/email.service.imp';
 import { EmailRepositoryImp } from './infraestructure/repositories/email.repository.imp';
 import { EmailTypes } from './domain/contants/types';
+import { EventQueueModule } from '../events-queue/eventQueue.module';
+import { EmailProducer } from '../events-queue/infraestructure/messaging/email.producer';
 
 @Module({
   imports: [
+    EventQueueModule,
     MongooseModule.forFeature([
       {
         name: EmailModel.name,
@@ -27,6 +30,7 @@ import { EmailTypes } from './domain/contants/types';
       useClass: EmailServiceImp,
     },
     SaveEmailUseCase,
+    EmailProducer,
   ],
   exports: [MongooseModule],
 })

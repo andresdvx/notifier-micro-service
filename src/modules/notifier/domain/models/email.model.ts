@@ -13,8 +13,8 @@ export class EmailModel extends Document implements IEmailModel {
   @Prop({ required: true })
   body: string;
 
-  @Prop({ default: 'pending' })
-  status: 'pending' | 'sent' | 'failed';
+  @Prop({ required: true })
+  type: 'welcome' | 'transaction';
 }
 
 export const EmailSchema = SchemaFactory.createForClass(EmailModel);
