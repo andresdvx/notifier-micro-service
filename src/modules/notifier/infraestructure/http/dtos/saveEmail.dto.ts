@@ -14,8 +14,13 @@ export class SaveEmailDto implements IEmailModel {
   @IsString()
   subject: string;
 
+  @IsNotEmpty()
   @IsString()
-  body: string;
+  payload: string;
+
+  @IsNotEmpty()
+  @IsString()
+  template: string;
 
   @IsEnum(EmailStatus)
   type: 'welcome' | 'transaction';

@@ -11,7 +11,7 @@ export class EmailProcessor extends WorkerHost {
 
   @Process('send_email')
   async process(job: Job) {
-    const { to, subject, body, type } : IEmailModel= job.data;
+    const { to, subject, payload, type } : IEmailModel= job.data;
 
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
@@ -29,8 +29,8 @@ export class EmailProcessor extends WorkerHost {
     await transporter.sendMail({
       from: process.env.USER_EMAIL, 
       to: to, 
-      subject: subject, 
-      text: body,
+      subject: subject,
+      text: payload,
       html: type === 'welcome' ? welcomeTemplate(to) : transactionEmailTemplate(to, 2000, 'sent'), 
     }).catch((err)=> console.log(err));
   }

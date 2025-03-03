@@ -11,7 +11,10 @@ export class EmailModel extends Document implements IEmailModel {
   subject: string;
 
   @Prop({ required: true })
-  body: string;
+  payload: string;
+
+  @Prop({ required: true })
+  template: string;
 
   @Prop({ required: true })
   type: 'welcome' | 'transaction';
