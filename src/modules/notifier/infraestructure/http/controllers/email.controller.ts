@@ -5,7 +5,7 @@ import { SaveEmailDto } from '../dtos/saveEmail.dto';
 export class EmailController {
   constructor(private readonly saveEmailUseCase: SaveEmailUseCase) {}
 
-  @Post('save')
+  @Post('send')
   async saveEmail(@Body() saveEmailDto: SaveEmailDto) {
     return await this.saveEmailUseCase.execute(saveEmailDto);
   }
