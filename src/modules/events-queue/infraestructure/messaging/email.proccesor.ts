@@ -6,14 +6,17 @@ import { EmailTypes, EventQueueTypes } from 'src/common/contants/types';
 import { IEmailModel } from 'src/modules/notifier/domain/models/email.model.interface';
 import { IEmailSender } from '../../domain/ports/emailSender.adapter.interface';
 import { IEmailService } from 'src/modules/notifier/domain/services/email.service.interface';
+import { IEmailPayload } from 'src/modules/notifier/domain/models/email.payload.interface';
+import { welcomeTemplate } from 'src/common/templates/welcome.template';
+import transactionEmailTemplate from 'src/common/templates/transaction.template';
 
 @Processor(EventQueueTypes.EmailEventQueue.toString())
 export class EmailProcessor extends WorkerHost {
   constructor(
     @Inject(EventQueueTypes.EmailSender)
-    private readonly emailSender: IEmailSender<IEmailModel>,
+    private readonly emailSender: IEmailSender<IEmailPayload>,
     @Inject(EmailTypes.EmailService)
-    private readonly emailService: IEmailService<IEmailModel>,
+    private readonly emailService: IEmailService<IEmailPayload,IEmailModel>,
   ) {
     super();
   }
@@ -21,9 +24,22 @@ export class EmailProcessor extends WorkerHost {
   @Process(EventQueueTypes.EmailProcess.toString())
   async process(job: Job) {
     try {
-      const email: IEmailModel = job.data;
+      const email: IEmailPayload = job.data;
+
       await this.emailSender.createEmailSender(email);
-      await this.emailService.saveEmail(email);
+      
+      const emailToSave: IEmailModel = {
+        to: email.to,
+        subject: 'App Bank Notification',
+        payload: `Hello, ${email.to}!`,
+        type: email.type,
+        template: email.type === 'welcome'
+                  ? welcomeTemplate(email.to)
+                  : transactionEmailTemplate(email.to, email.payload.amount, email.payload.transactionType),
+      }
+
+      await this.emailService.saveEmail(emailToSave);
+
     } catch (error) {
       console.log('❌ EmailProcessor => process', error);
       throw new InternalServerErrorException(error);

@@ -1,4 +1,4 @@
-export interface IEmailService<T> {
+export interface IEmailService<T,K> {
   sendEmail(email: T): Promise<void>;
-  saveEmail(email: T): Promise<T>;
+  saveEmail(email: K): Promise<K>;
 }
