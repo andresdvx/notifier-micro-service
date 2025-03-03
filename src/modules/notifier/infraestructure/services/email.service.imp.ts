@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IEmailModel } from '../../domain/models/Iemail.model';
-import { IEmailService } from '../../domain/services/email.service';
-import { IEmailRepository } from '../../domain/repositories/email.repository';
+import { IEmailModel } from '../../domain/models/email.model.interface';
+import { IEmailService } from '../../domain/services/email.service.interface';
+import { IEmailRepository } from '../../domain/repositories/email.repository.interface';
 import { EmailTypes } from 'src/common/contants/types';
 import { EmailProducer } from 'src/modules/events-queue/infraestructure/messaging/email.producer';
 
@@ -10,11 +10,14 @@ export class EmailServiceImp implements IEmailService {
   constructor(
     @Inject(EmailTypes.EmailRepository)
     private readonly emailRepository: IEmailRepository,
-    private readonly emailProducer: EmailProducer
+    private readonly emailProducer: EmailProducer,
   ) {}
 
-  async saveEmail(email: IEmailModel): Promise<IEmailModel> {
+  async sendEmail(email: IEmailModel) {
     await this.emailProducer.addEmailToQueue(email);
+  }
+
+  async saveEmail(email: IEmailModel): Promise<IEmailModel> {
     const savedEmail = await this.emailRepository.saveEmail(email);
     return savedEmail;
   }

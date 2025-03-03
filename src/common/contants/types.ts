@@ -6,4 +6,6 @@ export const EmailTypes = {
 export const EventQueueTypes = {
   EmailEventQueue: Symbol.for('EmailEvenetQueue'),
   EmailProcess: Symbol.for('SendEmailProcess'),
+  EmailSender: Symbol.for('EmailSender'),
 }
+

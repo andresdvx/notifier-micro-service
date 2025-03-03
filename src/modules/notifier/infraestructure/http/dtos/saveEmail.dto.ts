@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsEmail, IsString, IsEnum } from 'class-validator';
-import { IEmailModel } from 'src/modules/notifier/domain/models/Iemail.model';
+import { IEmailModel } from 'src/modules/notifier/domain/models/email.model.interface';
 
 export enum EmailStatus {
   WELCOME = 'welcome',

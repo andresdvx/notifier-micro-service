@@ -1,17 +1,17 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { EmailModel, EmailSchema } from './domain/models/email.model';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmailController } from './infraestructure/http/controllers/email.controller';
 import { SaveEmailUseCase } from './application/use-cases/saveEmail.useCase';
 import { EmailServiceImp } from './infraestructure/services/email.service.imp';
 import { EmailRepositoryImp } from './infraestructure/repositories/email.repository.imp';
-import { EmailTypes } from '../../common/contants/types';
+import { EmailTypes } from 'src/common/contants/types';
 import { EventQueueModule } from '../events-queue/eventQueue.module';
 import { EmailProducer } from '../events-queue/infraestructure/messaging/email.producer';
 
 @Module({
   imports: [
-    EventQueueModule,
+    forwardRef(()=> EventQueueModule),
     MongooseModule.forFeature([
       {
         name: EmailModel.name,
@@ -32,6 +32,12 @@ import { EmailProducer } from '../events-queue/infraestructure/messaging/email.p
     SaveEmailUseCase,
     EmailProducer,
   ],
-  exports: [MongooseModule],
+  exports: [
+    MongooseModule,
+    {
+      provide: EmailTypes.EmailService,
+      useClass: EmailServiceImp,
+    },
+  ],
 })
 export class NotifierModule {}

@@ -1,39 +1,34 @@
+import { Inject, InternalServerErrorException } from '@nestjs/common';
 import { Process } from '@nestjs/bull';
 import { Processor, WorkerHost, OnWorkerEvent } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
-import * as nodemailer from 'nodemailer';
-import { EventQueueTypes } from 'src/common/contants/types';
-import { welcomeTemplate } from 'src/common/templates/welcome.template';
-import { IEmailModel } from 'src/modules/notifier/domain/models/Iemail.model';
-import transactionEmailTemplate from 'src/common/templates/transaction.template';
+import { EmailTypes, EventQueueTypes } from 'src/common/contants/types';
+import { IEmailModel } from 'src/modules/notifier/domain/models/email.model.interface';
+import { IEmailSender } from '../../domain/ports/emailSender.adapter.interface';
+import { IEmailService } from 'src/modules/notifier/domain/services/email.service.interface';
 
 @Processor(EventQueueTypes.EmailEventQueue.toString())
 export class EmailProcessor extends WorkerHost {
+  constructor(
+    @Inject(EventQueueTypes.EmailSender)
+    private readonly emailSender: IEmailSender<IEmailModel>,
+    @Inject(EmailTypes.EmailService)
+    private readonly emailService: IEmailService,
+  ) {
+    super();
+  }
 
   @Process(EventQueueTypes.EmailProcess.toString())
   async process(job: Job) {
-    const { to, subject, payload, type } : IEmailModel= job.data;
+    try {
+      const email: IEmailModel = job.data;
+      await this.emailSender.createEmailSender(email);
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: parseInt(process.env.EMAIL_PORT || '587'),
-      secure: false, 
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    })
-
-    await transporter.sendMail({
-      from: process.env.USER_EMAIL, 
-      to: to, 
-      subject: subject,
-      text: payload,
-      html: type === 'welcome' ? welcomeTemplate(to) : transactionEmailTemplate(to, 2000, 'sent'), 
-    }).catch((err)=> console.log(err));
+      await this.emailService.saveEmail(email);
+    } catch (error) {
+      console.log('❌ EmailProcessor => process', error);
+      throw new InternalServerErrorException(error);
+    }
   }
 
   @OnWorkerEvent('completed')
