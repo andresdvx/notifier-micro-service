@@ -1,19 +1,37 @@
-import { IsNotEmpty, IsEmail, IsString, IsEnum, IsOptional } from 'class-validator';
-import { IEmailPayload } from 'src/modules/notifier/domain/models/email.payload.interface';
+import { IsNotEmpty, IsEmail, IsEnum, IsOptional, ValidateNested, IsString, IsNumber } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export enum EmailStatus {
   WELCOME = 'welcome',
   TRANSACTION = 'transaction',
 }
 
-export class SaveEmailDto implements IEmailPayload {
+export enum TransactionType{
+  INCOME = 'income',
+  OUTCOME = 'outcome',
+}
+
+export class TransactionPayloadDto {
+  @IsNotEmpty()
+  @IsNumber()
+  amount: string;
+
+  @IsNotEmpty()
+  @IsEnum(TransactionType)
+  transactionType: 'income' | 'outcome';
+}
+
+export class SaveEmailDto {
   @IsNotEmpty()
   @IsEmail()
   to: string;
   
+  @IsNotEmpty()
   @IsEnum(EmailStatus)
   type: 'welcome' | 'transaction';
-  
+
   @IsOptional()
-  payload: Record<string, any>;
+  @ValidateNested()  
+  @Type(() => TransactionPayloadDto)
+  payload: TransactionPayloadDto;
 }
