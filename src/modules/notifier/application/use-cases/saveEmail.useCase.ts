@@ -13,6 +13,5 @@ export class SaveEmailUseCase {
 
   async execute(email: IEmailPayload) {
      await this.emailService.sendEmail(email);
-     return 'email was sent';
   }
 }
