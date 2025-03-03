@@ -23,7 +23,6 @@ export class EmailProcessor extends WorkerHost {
     try {
       const email: IEmailModel = job.data;
       await this.emailSender.createEmailSender(email);
-
       await this.emailService.saveEmail(email);
     } catch (error) {
       console.log('❌ EmailProcessor => process', error);
