@@ -1,6 +1,4 @@
-import { IEmailModel } from '../models/email.model.interface';
-
-export interface IEmailService {
-  sendEmail(email: IEmailModel): Promise<void>;
-  saveEmail(email: IEmailModel): Promise<IEmailModel>;
+export interface IEmailService<T> {
+  sendEmail(email: T): Promise<void>;
+  saveEmail(email: T): Promise<T>;
 }

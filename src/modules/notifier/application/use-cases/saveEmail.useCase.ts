@@ -7,7 +7,7 @@ import { EmailTypes } from 'src/common/contants/types';
 export class SaveEmailUseCase {
   constructor(
     @Inject(EmailTypes.EmailService)
-    private readonly emailService: IEmailService,
+    private readonly emailService: IEmailService<IEmailModel>,
   ) {}
 
   async execute(email: IEmailModel) {

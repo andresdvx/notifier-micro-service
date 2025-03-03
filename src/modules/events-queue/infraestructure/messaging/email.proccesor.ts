@@ -13,7 +13,7 @@ export class EmailProcessor extends WorkerHost {
     @Inject(EventQueueTypes.EmailSender)
     private readonly emailSender: IEmailSender<IEmailModel>,
     @Inject(EmailTypes.EmailService)
-    private readonly emailService: IEmailService,
+    private readonly emailService: IEmailService<IEmailModel>,
   ) {
     super();
   }

@@ -1,5 +1,3 @@
-import { IEmailModel } from '../models/email.model.interface';
-
-export interface IEmailRepository {
-  saveEmail(email: IEmailModel): Promise<IEmailModel>;
+export interface IEmailRepository<T> {
+  saveEmail(email: T): Promise<T>;
 }

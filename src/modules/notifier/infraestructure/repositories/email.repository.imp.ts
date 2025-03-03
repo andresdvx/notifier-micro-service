@@ -6,7 +6,7 @@ import { IEmailModel } from '../../domain/models/email.model.interface';
 import { EmailModel } from '../../domain/models/email.model';
 
 @Injectable()
-export class EmailRepositoryImp implements IEmailRepository {
+export class EmailRepositoryImp implements IEmailRepository<IEmailModel> {
   constructor(
     @InjectModel(EmailModel.name)
     private readonly emailModel: Model<IEmailModel>,

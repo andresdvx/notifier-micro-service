@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import { IEmailModel } from 'src/modules/notifier/domain/models/email.model.interface';
 import { welcomeTemplate } from 'src/common/templates/welcome.template';
 import { transactionEmailTemplate } from 'src/common/templates/transaction.template';
+import { IEmailModel } from 'src/modules/notifier/domain/models/email.model.interface';
 import { IEmailSender } from '../../domain/ports/emailSender.adapter.interface';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class EmailSenderAdapterImp implements IEmailSender<IEmailModel> {
       html:
         email.type === 'welcome'
           ? welcomeTemplate(email.to)
-          : transactionEmailTemplate(email.to, 2000, 'sent'),
+          : transactionEmailTemplate(email.to, 2000, 'income'),
     });
   }
 }

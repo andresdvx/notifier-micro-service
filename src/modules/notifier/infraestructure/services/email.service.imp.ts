@@ -6,10 +6,10 @@ import { EmailTypes } from 'src/common/contants/types';
 import { EmailProducer } from 'src/modules/events-queue/infraestructure/messaging/email.producer';
 
 @Injectable()
-export class EmailServiceImp implements IEmailService {
+export class EmailServiceImp implements IEmailService<IEmailModel> {
   constructor(
     @Inject(EmailTypes.EmailRepository)
-    private readonly emailRepository: IEmailRepository,
+    private readonly emailRepository: IEmailRepository<IEmailModel>,
     private readonly emailProducer: EmailProducer,
   ) {}
 
