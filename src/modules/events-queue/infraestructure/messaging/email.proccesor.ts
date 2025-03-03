@@ -27,7 +27,7 @@ export class EmailProcessor extends WorkerHost {
       const email: IEmailPayload = job.data;
 
       await this.emailSender.createEmailSender(email);
-      
+
       const emailToSave: IEmailModel = {
         to: email.to,
         subject: 'App Bank Notification',

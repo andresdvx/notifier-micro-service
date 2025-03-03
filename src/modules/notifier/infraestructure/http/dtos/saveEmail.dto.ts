@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsEmail, IsString, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsEmail, IsString, IsEnum, IsOptional } from 'class-validator';
 import { IEmailPayload } from 'src/modules/notifier/domain/models/email.payload.interface';
 
 export enum EmailStatus {
@@ -14,6 +14,6 @@ export class SaveEmailDto implements IEmailPayload {
   @IsEnum(EmailStatus)
   type: 'welcome' | 'transaction';
   
-  @IsNotEmpty()
+  @IsOptional()
   payload: Record<string, any>;
 }

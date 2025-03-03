@@ -33,7 +33,5 @@ export class EmailSenderAdapterImp implements IEmailSender<IEmailPayload> {
           ? welcomeTemplate(email.to)
           : transactionEmailTemplate(email.to, email.payload.amount, email.payload.transactionType),
     });
-
-    return 
   }
 }
