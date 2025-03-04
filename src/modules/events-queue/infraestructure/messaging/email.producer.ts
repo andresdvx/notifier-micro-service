@@ -6,10 +6,16 @@ import { IEmailPayload } from 'src/modules/notifier/domain/models/email.payload.
 
 @Injectable()
 export class EmailProducer {
-  constructor(@InjectQueue(EventQueueTypes.EmailEventQueue.toString()) private readonly emailqueue: Queue) {}
+  constructor(
+    @InjectQueue(EventQueueTypes.EmailEventQueue.toString())
+    private readonly emailqueue: Queue,
+  ) {}
 
   async addEmailToQueue(email: IEmailPayload) {
-    if(email.type === 'transaction' && email.payload === undefined) throw new BadRequestException('Payload is required for transaction emails');
+    if (email.type === 'transaction' && email.payload === undefined)
+      throw new BadRequestException(
+        'Payload is required for transaction emails',
+      );
     await this.emailqueue.add(EventQueueTypes.EmailProcess.toString(), email);
   }
 }

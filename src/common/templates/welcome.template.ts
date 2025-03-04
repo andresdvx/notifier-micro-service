@@ -1,5 +1,5 @@
 export const welcomeTemplate = (email: string): string => {
- return `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+  return `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
     <h2 style="color: #4CAF50; text-align: center;">¡Bienvenido a nuestra aplicación, ${email}!</h2>
     <p style="font-size: 16px; color: #333;">
       Hola <strong>${email}</strong>, estamos emocionados de tenerte con nosotros. 
@@ -14,5 +14,5 @@ export const welcomeTemplate = (email: string): string => {
       Si tienes alguna pregunta, no dudes en contactarnos. ¡Gracias por unirte a nosotros!
     </p>
   </div>
-`
-}
+`;
+};

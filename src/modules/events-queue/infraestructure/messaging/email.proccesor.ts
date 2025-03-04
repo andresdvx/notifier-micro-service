@@ -16,7 +16,7 @@ export class EmailProcessor extends WorkerHost {
     @Inject(EventQueueTypes.EmailSender)
     private readonly emailSender: IEmailSender<IEmailPayload>,
     @Inject(EmailTypes.EmailService)
-    private readonly emailService: IEmailService<IEmailPayload,IEmailModel>,
+    private readonly emailService: IEmailService<IEmailPayload, IEmailModel>,
   ) {
     super();
   }
@@ -33,13 +33,17 @@ export class EmailProcessor extends WorkerHost {
         subject: 'App Bank Notification',
         payload: `Hello, ${email.to}!`,
         type: email.type,
-        template: email.type === 'welcome'
-                  ? welcomeTemplate(email.to)
-                  : transactionEmailTemplate(email.to, email.payload.amount, email.payload.transactionType),
-      }
+        template:
+          email.type === 'welcome'
+            ? welcomeTemplate(email.to)
+            : transactionEmailTemplate(
+                email.to,
+                email.payload.amount,
+                email.payload.transactionType,
+              ),
+      };
 
       await this.emailService.saveEmail(emailToSave);
-
     } catch (error) {
       console.log('❌ EmailProcessor => process', error);
       throw new InternalServerErrorException(error);

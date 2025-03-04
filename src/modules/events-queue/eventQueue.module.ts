@@ -13,7 +13,7 @@ import { NotifierModule } from '../notifier/notifier.module';
       name: EventQueueTypes.EmailEventQueue.toString(),
       connection: RegisConfig.getRedisConection(),
     }),
-    forwardRef(()=> NotifierModule)
+    forwardRef(() => NotifierModule),
   ],
   providers: [
     EmailProducer,

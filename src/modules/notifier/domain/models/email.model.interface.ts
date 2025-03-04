@@ -3,5 +3,5 @@ export interface IEmailModel {
   subject: string;
   payload: string;
   template: string;
-  type: 'welcome' | 'transaction'
+  type: 'welcome' | 'transaction';
 }

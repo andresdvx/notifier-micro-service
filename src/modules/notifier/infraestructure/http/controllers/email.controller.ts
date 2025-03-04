@@ -9,6 +9,10 @@ export class EmailController {
   @Post('send')
   async saveEmail(@Body() saveEmailDto: SaveEmailDto) {
     await this.saveEmailUseCase.execute(saveEmailDto);
-    return ResponseHandler({message: 'Email sent successfully', error: 'no error', statusCode: 200});
+    return ResponseHandler({
+      message: 'Email sent successfully',
+      error: 'no error',
+      statusCode: 200,
+    });
   }
 }

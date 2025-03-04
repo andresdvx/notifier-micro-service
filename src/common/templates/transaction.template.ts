@@ -1,8 +1,12 @@
-export const transactionEmailTemplate = (email: string, amount: number, type: 'income' | 'outcome') => {
-    const transactionTypeText = type === 'income' ? 'recibido' : 'enviado';
-    const transactionColor = type === 'income' ? '#4CAF50' : '#f44336';
-  
-    return `
+export const transactionEmailTemplate = (
+  email: string,
+  amount: number,
+  type: 'income' | 'outcome',
+) => {
+  const transactionTypeText = type === 'income' ? 'recibido' : 'enviado';
+  const transactionColor = type === 'income' ? '#4CAF50' : '#f44336';
+
+  return `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
         <h2 style="color: ${transactionColor}; text-align: center;">¡Transacción ${type === 'income' ? 'recibida' : 'enviada'}!</h2>
         <p style="font-size: 16px; color: #333;">
@@ -18,7 +22,6 @@ export const transactionEmailTemplate = (email: string, amount: number, type: 'i
         </p>
       </div>
     `;
-  };
-  
-  export default transactionEmailTemplate;
-  
+};
+
+export default transactionEmailTemplate;

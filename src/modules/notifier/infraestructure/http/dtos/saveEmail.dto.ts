@@ -1,4 +1,12 @@
-import { IsNotEmpty, IsEmail, IsEnum, IsOptional, ValidateNested, IsString, IsNumber } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  ValidateNested,
+  IsString,
+  IsNumber,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export enum EmailStatus {
@@ -6,7 +14,7 @@ export enum EmailStatus {
   TRANSACTION = 'transaction',
 }
 
-export enum TransactionType{
+export enum TransactionType {
   INCOME = 'income',
   OUTCOME = 'outcome',
 }
@@ -25,13 +33,13 @@ export class SaveEmailDto {
   @IsNotEmpty()
   @IsEmail()
   to: string;
-  
+
   @IsNotEmpty()
   @IsEnum(EmailStatus)
   type: 'welcome' | 'transaction';
 
   @IsOptional()
-  @ValidateNested()  
+  @ValidateNested()
   @Type(() => TransactionPayloadDto)
   payload: TransactionPayloadDto;
 }

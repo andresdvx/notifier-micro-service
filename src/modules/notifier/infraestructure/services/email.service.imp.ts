@@ -7,7 +7,9 @@ import { IEmailPayload } from '../../domain/models/email.payload.interface';
 import { IEmailModel } from '../../domain/models/email.model.interface';
 
 @Injectable()
-export class EmailServiceImp implements IEmailService<IEmailPayload, IEmailModel> {
+export class EmailServiceImp
+  implements IEmailService<IEmailPayload, IEmailModel>
+{
   constructor(
     @Inject(EmailTypes.EmailRepository)
     private readonly emailRepository: IEmailRepository<IEmailModel>,

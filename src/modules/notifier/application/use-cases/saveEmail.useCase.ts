@@ -12,6 +12,6 @@ export class SaveEmailUseCase {
   ) {}
 
   async execute(email: IEmailPayload) {
-     await this.emailService.sendEmail(email);
+    await this.emailService.sendEmail(email);
   }
 }

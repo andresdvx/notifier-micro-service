@@ -7,17 +7,16 @@ import { EmailServiceImp } from './infraestructure/services/email.service.imp';
 import { EmailRepositoryImp } from './infraestructure/repositories/email.repository.imp';
 import { EmailTypes } from 'src/common/contants/types';
 import { EventQueueModule } from '../events-queue/eventQueue.module';
-import { EmailProducer } from '../events-queue/infraestructure/messaging/email.producer';
 
 @Module({
   imports: [
-    forwardRef(()=> EventQueueModule),
     MongooseModule.forFeature([
       {
         name: EmailModel.name,
         schema: EmailSchema,
       },
     ]),
+    forwardRef(() => EventQueueModule),
   ],
   controllers: [EmailController],
   providers: [
@@ -30,7 +29,6 @@ import { EmailProducer } from '../events-queue/infraestructure/messaging/email.p
       useClass: EmailServiceImp,
     },
     SaveEmailUseCase,
-    EmailProducer,
   ],
   exports: [
     MongooseModule,
