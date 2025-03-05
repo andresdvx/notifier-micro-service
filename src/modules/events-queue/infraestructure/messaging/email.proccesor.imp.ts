@@ -45,7 +45,7 @@ export class EmailProcessorImp
             : transactionEmailTemplate(
                 email.to,
                 email.payload.amount,
-                email.payload.transactionType,
+                email.payload.type,
               ),
       };
 
