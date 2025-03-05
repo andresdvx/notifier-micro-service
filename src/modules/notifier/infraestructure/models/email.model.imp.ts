@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { IEmailModel } from './email.model.interface';
+import { IEmailModel } from '../../domain/models/email.model.interface';
 
 @Schema({ collection: 'emails' })
 export class EmailModel extends Document implements IEmailModel {

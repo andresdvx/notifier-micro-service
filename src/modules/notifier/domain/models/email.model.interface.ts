@@ -4,4 +4,5 @@ export interface IEmailModel {
   payload: string;
   template: string;
   type: 'welcome' | 'transaction';
+  sentAt?: Date;
 }

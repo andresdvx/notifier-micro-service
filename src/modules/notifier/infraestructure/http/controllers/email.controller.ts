@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { SaveEmailUseCase } from 'src/modules/notifier/application/use-cases/saveEmail.useCase';
-import { SaveEmailDto } from '../dtos/saveEmail.dto';
 import { ResponseHandler } from 'src/common/handlers/response.handler';
+import { SaveEmailDto } from '../dtos/saveEmail.dto';
 
 @Controller('email')
 export class EmailController {

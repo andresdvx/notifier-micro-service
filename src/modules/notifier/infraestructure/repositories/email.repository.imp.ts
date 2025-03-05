@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { EmailModel } from '../models/email.model.imp';
 import { IEmailRepository } from '../../domain/repositories/email.repository.interface';
-import { EmailModel } from '../../domain/models/email.model';
 import { IEmailModel } from '../../domain/models/email.model.interface';
 
 @Injectable()
