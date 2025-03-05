@@ -3,9 +3,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Queue } from 'bullmq';
 import { EventQueueTypes } from 'src/common/contants/types';
 import { IEmailPayload } from 'src/modules/notifier/domain/models/email.payload.interface';
+import { IEmailProducer } from '../../domain/messaging/email.producer.interface';
 
 @Injectable()
-export class EmailProducer {
+export class EmailProducerImp implements IEmailProducer<IEmailPayload> {
   constructor(
     @InjectQueue(EventQueueTypes.EmailEventQueue.toString())
     private readonly emailqueue: Queue,

@@ -1,28 +1,34 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
-import { RegisConfig } from './infraestructure/config/redis.config';
-import { EmailProducer } from './infraestructure/messaging/email.producer';
-import { EmailProcessor } from './infraestructure/messaging/email.proccesor';
+import { EmailProducerImp } from './infraestructure/messaging/email.producer.imp';
+import { EmailProcessorImp } from './infraestructure/messaging/email.proccesor.imp';
 import { EventQueueTypes } from 'src/common/contants/types';
 import { EmailSenderAdapterImp } from './infraestructure/adapters/emailSender.adapter.imp';
 import { NotifierModule } from '../notifier/notifier.module';
+import { redisQueueConfig } from './infraestructure/config/redis.queue.config';
 
 @Module({
   imports: [
-    BullModule.registerQueue({
-      name: EventQueueTypes.EmailEventQueue.toString(),
-      connection: RegisConfig.getRedisConection(),
-    }),
+    BullModule.registerQueue(redisQueueConfig),
     forwardRef(() => NotifierModule),
   ],
   providers: [
-    EmailProducer,
-    EmailProcessor,
+    EmailProcessorImp,
+    {
+      provide: EventQueueTypes.EmailProducer,
+      useClass: EmailProducerImp,
+    },
     {
       provide: EventQueueTypes.EmailSender,
       useClass: EmailSenderAdapterImp,
     },
   ],
-  exports: [EmailProducer, BullModule],
+  exports: [
+    BullModule,
+    {
+      provide: EventQueueTypes.EmailProducer,
+      useClass: EmailProducerImp,
+    },
+  ],
 })
 export class EventQueueModule {}

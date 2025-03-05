@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IEmailRepository } from '../../domain/repositories/email.repository.interface';
 import { EmailModel } from '../../domain/models/email.model';
-import { IEmailPayload } from '../../domain/models/email.payload.interface';
 import { IEmailModel } from '../../domain/models/email.model.interface';
 
 @Injectable()

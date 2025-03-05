@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { welcomeTemplate } from 'src/common/templates/welcome.template';
@@ -9,8 +10,8 @@ import { IEmailPayload } from 'src/modules/notifier/domain/models/email.payload.
 export class EmailSenderAdapterImp implements IEmailSender<IEmailPayload> {
   constructor() {}
 
-  async createEmailSender(email: IEmailPayload) {
-    const transporter = nodemailer.createTransport({
+  private createTransporter() {
+    return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: parseInt(process.env.EMAIL_PORT || '587'),
       secure: false,
@@ -22,8 +23,10 @@ export class EmailSenderAdapterImp implements IEmailSender<IEmailPayload> {
         rejectUnauthorized: false,
       },
     });
+  }
 
-    await transporter.sendMail({
+  private generateEmailContent(email: IEmailPayload) {
+    return {
       from: process.env.USER_EMAIL,
       to: email.to,
       subject: 'App Bank Notification',
@@ -36,6 +39,18 @@ export class EmailSenderAdapterImp implements IEmailSender<IEmailPayload> {
               email.payload.amount,
               email.payload.transactionType,
             ),
-    });
+    };
+  }
+
+  async createEmailSender(email: IEmailPayload) {
+    const transporter = this.createTransporter();
+    const mailContent = this.generateEmailContent(email);
+
+    try {
+      await transporter.sendMail(mailContent);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      throw new Error('Failed to send email');
+    }
   }
 }
