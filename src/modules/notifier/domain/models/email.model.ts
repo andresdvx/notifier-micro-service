@@ -18,6 +18,9 @@ export class EmailModel extends Document implements IEmailModel {
 
   @Prop({ required: true })
   type: 'welcome' | 'transaction';
+
+  @Prop({ default: Date.now })
+  sentAt: Date;
 }
 
 export const EmailSchema = SchemaFactory.createForClass(EmailModel);

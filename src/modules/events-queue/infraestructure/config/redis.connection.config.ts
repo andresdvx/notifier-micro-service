@@ -1,5 +1,5 @@
 export class RegisConfig {
-  static getRedisConection() {
+  static getRedisConnection() {
     return {
       host: process.env.REDIS_HOST,
       port: parseInt(process.env.REDIS_PORT || '6379'),
