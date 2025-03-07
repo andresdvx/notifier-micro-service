@@ -10,6 +10,7 @@ import { EmailServiceImp } from './infraestructure/services/email.service.imp';
 import { EmailRepositoryImp } from './infraestructure/repositories/email.repository.imp';
 import { EmailTypes } from 'src/common/contants/types';
 import { EventQueueModule } from '../events-queue/eventQueue.module';
+import { HttpModule } from '../http/http.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { EventQueueModule } from '../events-queue/eventQueue.module';
         schema: EmailSchema,
       },
     ]),
+    HttpModule,
     forwardRef(() => EventQueueModule),
   ],
   controllers: [EmailController],

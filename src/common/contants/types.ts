@@ -9,3 +9,7 @@ export const EventQueueTypes = {
   EmailSender: Symbol.for('EmailSender'),
   EmailProducer: Symbol.for('EmailProducer'),
 };
+
+export const HttpTypes = {
+  AxiosAdapter: Symbol.for('AxiosAdapter'),
+};

@@ -19,7 +19,7 @@ export class EmailModel extends Document implements IEmailModel {
   @Prop({ required: true })
   type: 'welcome' | 'transaction';
 
-  @Prop({ default: Date.now })
+  @Prop({ default: new Date() })
   sentAt: Date;
 }
 

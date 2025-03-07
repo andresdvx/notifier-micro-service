@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { NotifierModule } from './modules/notifier/notifier.module';
+import { BullModule } from '@nestjs/bullmq';
 import { MongooseModule } from '@nestjs/mongoose';
+import { NotifierModule } from './modules/notifier/notifier.module';
 import { EventQueueModule } from './modules/events-queue/eventQueue.module';
 import { MongoConnectionConfig } from './common/config/database/mongo.connection.config';
-import { BullModule } from '@nestjs/bullmq';
 import { RedisQueueConfig } from './common/config/queue/redis.queue.config';
+import { HttpModule } from './modules/http/http.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { RedisQueueConfig } from './common/config/queue/redis.queue.config';
     }),
     NotifierModule,
     EventQueueModule,
+    HttpModule,
   ],
   controllers: [],
   providers: [],
