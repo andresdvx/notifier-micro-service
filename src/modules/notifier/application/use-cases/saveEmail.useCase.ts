@@ -21,7 +21,7 @@ export class SaveEmailUseCase {
     } catch (error) {
       const data = {
         service: 'Notifications',
-        type: 'post',
+        type: 'error',
         payload: error,
       };
       if (!process.env.API_LOGS_URL) {
