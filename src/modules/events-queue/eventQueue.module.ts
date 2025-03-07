@@ -5,11 +5,13 @@ import { EmailProcessorImp } from './infraestructure/messaging/email.proccesor.i
 import { EventQueueTypes } from 'src/common/contants/types';
 import { EmailSenderAdapterImp } from './infraestructure/adapters/emailSender.adapter.imp';
 import { NotifierModule } from '../notifier/notifier.module';
-import { redisQueueConfig } from './infraestructure/config/redis.queue.config';
+import { RedisQueueConfig } from 'src/common/config/queue/redis.queue.config';
 
 @Module({
   imports: [
-    BullModule.registerQueue(redisQueueConfig),
+    BullModule.registerQueue({
+      name: RedisQueueConfig.getQueueConnection().name,
+    }),
     forwardRef(() => NotifierModule),
   ],
   providers: [
