@@ -25,7 +25,7 @@ export class TransactionPayloadDto {
 
   @IsNotEmpty()
   @IsEnum(TransactionType)
-  transactionType: 'income' | 'outcome';
+  type: 'income' | 'outcome';
 }
 
 export class SaveEmailDto {

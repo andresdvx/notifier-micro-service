@@ -1,5 +1,8 @@
 import { Module, forwardRef } from '@nestjs/common';
-import { EmailModel, EmailSchema } from './infraestructure/models/email.model.imp';
+import {
+  EmailModel,
+  EmailSchema,
+} from './infraestructure/models/email.model.imp';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EmailController } from './infraestructure/http/controllers/email.controller';
 import { SaveEmailUseCase } from './application/use-cases/saveEmail.useCase';
