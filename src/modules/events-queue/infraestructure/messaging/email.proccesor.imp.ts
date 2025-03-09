@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Inject, InternalServerErrorException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { Process } from '@nestjs/bull';
 import { Processor, WorkerHost, OnWorkerEvent } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
@@ -52,7 +52,7 @@ export class EmailProcessorImp
       await this.emailService.saveEmail(emailToSave);
     } catch (error) {
       console.log('❌ EmailProcessor => process', error);
-      throw new InternalServerErrorException(error);
+      throw error;
     }
   }
 
