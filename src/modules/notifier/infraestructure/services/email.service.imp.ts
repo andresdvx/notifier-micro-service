@@ -1,9 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  InjectionToken,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Inject, Injectable, InjectionToken } from '@nestjs/common';
 import { IEmailProducer } from 'src/modules/events-queue/domain/messaging/email.producer.interface';
 import {
   EmailTypes,
@@ -16,7 +11,6 @@ import { IEmailPayload } from '../../domain/models/email.payload.interface';
 import { IEmailModel } from '../../domain/models/email.model.interface';
 import { IAxiosAdapter } from 'src/modules/http/domain/ports/axios.adapter.interface';
 import { ILogPayload } from 'src/modules/http/domain/models/log.model.interface';
-import { AxiosResponse } from 'axios';
 
 @Injectable()
 export class EmailServiceImp
@@ -62,13 +56,6 @@ export class EmailServiceImp
     if (!process.env.API_LOGS_URL) {
       throw new Error('API_LOGS_URL is not defined');
     }
-    const res: AxiosResponse = await this.axiosAdapter.post(
-      process.env.API_LOGS_URL,
-      data,
-    );
-
-    if (res.status !== 200) {
-      throw new InternalServerErrorException('Error saving log event');
-    }
+    await this.axiosAdapter.post(process.env.API_LOGS_URL, data);
   }
 }
